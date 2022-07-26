@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:kortoba/view/Authentication/screens/login_screen.dart';
 import 'package:kortoba/view/Landing/screens/landing_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../../components/snack_bar.dart';
 import '../../model/global/user_model.dart';
 import '../../util/routes.dart';
@@ -12,6 +10,9 @@ import 'firebase_operations.dart';
 class FirebaseAuthenticationService with ChangeNotifier {
   final FirebaseAuth _firebaseAuth ;
   FirebaseAuthenticationService(this._firebaseAuth);
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   User? get user => _firebaseAuth.currentUser;
 
@@ -24,6 +25,7 @@ class FirebaseAuthenticationService with ChangeNotifier {
     required String name
   }) async {
     try {
+      _isLoading = true;
       await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -38,19 +40,21 @@ class FirebaseAuthenticationService with ChangeNotifier {
                 image: '',
                 background: '',
               ));
+          _isLoading=false;
           AppRoute.pushReplacement(const LandingScreen());
           showSnackBar(context, 'Regitser successful');
         }
       });
     } on FirebaseAuthException catch (e) {
+      _isLoading = false;
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+      }
+      else if (e.code == 'email-already-in-use') {
       }
       showSnackBar(
           context, e.message!); // Displaying the usual firebase error message
     }
+    notifyListeners();
   }
 
   Future<void> loginWithEmail({
@@ -59,18 +63,22 @@ class FirebaseAuthenticationService with ChangeNotifier {
     required BuildContext context,
   }) async {
     try {
+      _isLoading = true;
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       ).then((value) {
         if(value.user != null){
+          _isLoading=false;
           AppRoute.pushReplacement(const LandingScreen());
           showSnackBar(context, 'Login successful');
         }
       });
     } on FirebaseAuthException catch (e) {
+      _isLoading=false;
       showSnackBar(context, e.message!); // Displaying the error message
     }
+    notifyListeners();
   }
 
   resetPassword({

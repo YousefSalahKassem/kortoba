@@ -40,7 +40,7 @@ class ForgotBody extends StatelessWidget {
                           TextApp(text: email,style: TextStyle(color: labelsColor, fontSize: context.height20, fontWeight: FontWeight.w700),),
                           SizedBox(height: context.height10),
                           TextFieldApp(
-                              valid: "برجاء ادخال البريد الالكترونى",
+                              valid: emailRequired,
                               controller: controller.emailController,
                               icon: Icons.email,
                               type: TextInputType.emailAddress),
