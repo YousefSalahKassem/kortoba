@@ -20,3 +20,4 @@ Future checkFirstSeen() async {
     AppRoute.pushReplacement(const BoardingScreen());
   }
 }
+

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kortoba/modules/auth_controller.dart';
+import 'package:kortoba/modules/post_controller.dart';
 import 'package:kortoba/service/global/authentication_service.dart';
 import 'package:kortoba/service/global/firebase_operations.dart';
 import 'package:kortoba/styles/themes.dart';
@@ -44,10 +47,13 @@ class MyApp extends StatelessWidget {
             create: (_) => AuthController(),
           ),
           ChangeNotifierProvider(
-            create: (_) => FirebaseOperations(FirebaseFirestore.instance),
+            create: (_) => FirebaseOperations(FirebaseFirestore.instance,),
           ),
           ChangeNotifierProvider(
             create: (_) => FirebaseAuthenticationService(FirebaseAuth.instance),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => PostController(),
           ),
     ],
       child: MaterialApp(

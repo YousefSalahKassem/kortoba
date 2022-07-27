@@ -7,11 +7,12 @@ class ButtonApp extends StatelessWidget {
   Color color;
   VoidCallback onPressed;
   String text;
-
+  double? width;
   ButtonApp(
       {Key? key,
         required this.color,
         required this.text,
+        this.width,
         required this.onPressed})
       : super(key: key);
 
@@ -20,7 +21,7 @@ class ButtonApp extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-          width: context.screenWidth,
+          width: width??context.screenWidth,
           height: context.height30*1.8,
           decoration: BoxDecoration(
             color: color,

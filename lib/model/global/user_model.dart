@@ -9,21 +9,21 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      name: json['name'],
-      email: json['email'],
-      id: json['id'],
-      image: json['image'],
-      background: json['background'],
+      name: json['name']??'',
+      email: json['email']??'',
+      id: json['id']??'',
+      image: json['image']??'',
+      background: json['background']??'',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'email': email,
-      'id': id,
-      'image': image,
-      'background': background,
+      'name': name??'',
+      'email': email??'',
+      'id': id??'',
+      'image': image??'',
+      'background': background??'',
     };
   }
 }

@@ -13,6 +13,9 @@ abstract class AppThemes {
     bottomAppBarColor: secondaryColor,
     shadowColor: shadowColor,
     cardTheme: const CardTheme(color: whiteColor),
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: primaryColor
+    ),
     dialogTheme: const DialogTheme(backgroundColor: whiteColor),
     bottomSheetTheme: const BottomSheetThemeData().copyWith(
       backgroundColor: primaryColor,

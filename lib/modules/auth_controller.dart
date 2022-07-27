@@ -1,13 +1,14 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kortoba/model/global/user_model.dart';
 import 'package:kortoba/service/global/authentication_service.dart';
+import 'package:kortoba/service/global/firebase_operations.dart';
 import 'package:kortoba/util/routes.dart';
 import 'package:kortoba/view/Authentication/screens/login_screen.dart';
-import 'package:kortoba/view/Boarding/screens/boarding_screen.dart';
-import 'package:kortoba/view/Landing/screens/landing_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../service/global/firebase_operations.dart';
 
 class AuthController with ChangeNotifier{
   final GlobalKey<FormState> loginKey = GlobalKey<FormState>();
@@ -16,6 +17,9 @@ class AuthController with ChangeNotifier{
 
   bool _isShowing = true;
   bool get isShowing => _isShowing;
+
+  UserModel _user= UserModel();
+  UserModel get user => _user;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -68,4 +72,15 @@ class AuthController with ChangeNotifier{
     notifyListeners();
   }
 
+  getCurrentUser(BuildContext context) async {
+    FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {
+      _user = UserModel.fromJson(value.data()!);
+    });
+  }
+
+  getUserData(BuildContext context, String uid) async {
+    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
+      _user = UserModel.fromJson(value.data()!);
+    });
+  }
 }
