@@ -32,3 +32,18 @@ const String passwordRequired = 'كلمة المرور مطلوبة';
 const String confirmPasswordRequired = 'تأكيد كلمة المرور مطلوب';
 const String firstNameRequired = 'الاسم الاول مطلوب';
 const String lastNameRequired = 'الاسم الاخير مطلوب';
+const String userName = 'اسم المستخدم';
+const String settingsTitle = 'الإعدادات';
+const String editInformationTitle = 'تعديل بياناتى';
+
+// -------------------------------------------------------------------------------------
+
+const String tableName = 'Posts';
+const String columnId ='postId';
+const String columnName ='name';
+const String columnProfileImage ='profileImage';
+const String columnEmail ='email';
+const String columnCaption ='caption';
+const String columnImage ='image';
+const String columnFavourite ='favourite';
+const String columnLikes ='likes';

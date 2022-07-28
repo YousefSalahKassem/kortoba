@@ -5,7 +5,6 @@ import 'package:kortoba/model/global/post_model.dart';
 import 'package:kortoba/modules/post_controller.dart';
 import 'package:kortoba/styles/dimensions.dart';
 import 'package:kortoba/view/Home/widgets/post_item.dart';
-import 'package:provider/provider.dart';
 
 class BuildBody extends StatelessWidget {
   const BuildBody({Key? key}) : super(key: key);
@@ -24,9 +23,6 @@ class BuildBody extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               } else {
-                posts = snapshot.data!.docs
-                    .map((e) => PostModel.fromJson(e.data() as Map))
-                    .toList();
                 return ListView(
                     children: snapshot.data!.docs.map((DocumentSnapshot snapshot) {
                   return PostItem(

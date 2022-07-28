@@ -1,28 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kortoba/components/text_app.dart';
 import 'package:kortoba/model/local/local_post_model.dart';
-import 'package:kortoba/modules/favorite_controller.dart';
 import 'package:kortoba/modules/post_controller.dart';
 import 'package:kortoba/styles/colors.dart';
 import 'package:kortoba/styles/dimensions.dart';
-import 'package:kortoba/styles/strings.dart';
 import 'package:provider/provider.dart';
-import '../../../model/global/post_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-class PostItem extends StatelessWidget {
-  final PostModel post;
+class LocalPostItem extends StatelessWidget {
+  final LocalPostModel post;
   final String docId;
 
-  const PostItem({Key? key, required this.post, required this.docId})
+  const LocalPostItem({Key? key, required this.post, required this.docId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     PostController postController = Provider.of<PostController>(context);
-    FavouriteController favoriteController = Provider.of<FavouriteController>(context);
     String id = FirebaseAuth.instance.currentUser!.uid;
-
     return Container(
       margin: EdgeInsets.all(context.height20),
       padding: EdgeInsets.all(context.height10),
@@ -83,72 +79,55 @@ class PostItem extends StatelessWidget {
               SizedBox(
                 width: context.height10,
               ),
-              Column(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        if (favoriteController.isSave(docId)) {
-                          favoriteController.deletePost(docId);
-                        } else {
-                          favoriteController.addPost(LocalPostModel(
-                            name: post.name!,
-                            image: post.image!,
-                            caption: post.caption!,
-                            favourite: 'true',
-                            id: docId,
-                            likes: post.likes!.length.toString(),
-                          ));
-                        }
-                      },
-                      icon: Icon(Icons.bookmark,
-                          color: favoriteController.isSave(docId)
-                              ? drawerColor
-                              : avatar,
-                          size: context.height30)),
-                  SizedBox(
-                    height: context.height15,
-                  ),
-                ],
-              ),
               SizedBox(
                 width: context.height10,
               ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: context.height30 * 1.3,
-                    child: IconButton(
-                    onPressed: () {
-                      if(post.likes!.contains(FirebaseAuth.instance.currentUser!.uid)) {
-                        postController.removeLike(docId);
-                      }
-                      else{
-                        postController.addLike(docId);
-                      }
-                    },
-                    icon: Icon(Icons.thumb_up,
-                        color: post.likes!.contains(id)?drawerColor:avatar,
-                        size: context.height30)),
-              ),
-                      Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: context.height10 / 2,
-                              vertical: context.height10 / 2),
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius:
-                                BorderRadius.circular(context.height10 / 2),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('posts').doc(docId).snapshots(),
+                  builder: (context,snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      List<dynamic> likes = snapshot.data!.data()!['likes'] as List<dynamic>;
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: context.height30 * 1.3,
+                            child: IconButton(
+                                onPressed: () {
+                                  if (likes.contains(id)) {
+                                    likes.remove(id);
+                                    postController.removeLike(docId);
+                                  } else {
+                                    likes.add(id);
+                                    postController.addLike(docId);
+                                  }
+                                },
+                                icon: Icon(Icons.thumb_up,
+                                    color: likes.contains(id)?drawerColor:avatar,
+                                    size: context.height30)),
                           ),
-                          child: Center(
-                              child: TextApp(
-                                text: post.likes!.length.toString(),
-                                style: TextStyle(
-                                    color: primaryLight,
-                                    fontSize: context.height10 * 1.1,
-                                    fontWeight: FontWeight.w900),
-                              )))
-                ],
-              )
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: context.height10 / 2,
+                                  vertical: context.height10 / 2),
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius:
+                                BorderRadius.circular(context.height10 / 2),
+                              ),
+                              child: Center(
+                                  child: TextApp(
+                                    text: likes.length.toString(),
+                                    style: TextStyle(
+                                        color: primaryLight,
+                                        fontSize: context.height10 * 1.1,
+                                        fontWeight: FontWeight.w900),
+                                  )))
+                        ],
+                      );
+                    }
+                  }),
             ],
           ),
           SizedBox(

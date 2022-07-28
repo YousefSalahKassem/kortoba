@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,8 +13,8 @@ import 'package:kortoba/util/globals.dart';
 import 'package:kortoba/util/routes.dart';
 import 'package:kortoba/view/Boarding/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
-
 import 'modules/boarding_controller.dart';
+import 'modules/favorite_controller.dart';
 import 'util/firebase_options.dart';
 
 
@@ -38,6 +36,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseFirestore.instance.settings =const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: 100 * 1024 * 1024,
+    );
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
@@ -54,6 +56,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (_) => PostController(),
+          ),
+          ChangeNotifierProvider(
+              create: (_) => FavouriteController()
           ),
     ],
       child: MaterialApp(

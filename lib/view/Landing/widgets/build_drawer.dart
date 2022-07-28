@@ -3,7 +3,13 @@ import 'package:kortoba/modules/auth_controller.dart';
 import 'package:kortoba/styles/colors.dart';
 import 'package:kortoba/styles/dimensions.dart';
 import 'package:kortoba/styles/strings.dart';
+import 'package:kortoba/util/routes.dart';
+import 'package:kortoba/view/Favourite/screens/favorite_screen.dart';
+import 'package:kortoba/view/Home/screens/home_screen.dart';
+import 'package:kortoba/view/Profile/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../../Authentication/screens/forgot_screen.dart';
 
 
 Drawer buildDrawer(BuildContext context) {
@@ -17,7 +23,7 @@ Drawer buildDrawer(BuildContext context) {
             color: drawerColor,
           ),
           child: FutureBuilder(
-            future: controller.getCurrentUser(context),
+            future: controller.getCurrentUser(),
               builder: (context,snapshot) => Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,7 +50,7 @@ Drawer buildDrawer(BuildContext context) {
           title:  Text(mainScreen,style: TextStyle(color: drawerColor, fontSize: context.height20, fontWeight: FontWeight.bold)),
           leading:  Icon(Icons.home,color: drawerColor, size: context.height20),
           onTap: () {
-            Navigator.pushReplacementNamed(context, '/');
+            AppRoute.push(const HomeScreen());
           },
         ),
         Padding(
@@ -55,7 +61,7 @@ Drawer buildDrawer(BuildContext context) {
           title: Text(profile,style: TextStyle(color: drawerColor,fontSize: context.height20, fontWeight: FontWeight.bold),),
           leading: Icon(Icons.person,color: drawerColor, size: context.height20),
           onTap: () {
-            Navigator.pushReplacementNamed(context, '/profile');
+            AppRoute.push(const ProfileScreen());
           },
         ),
         Padding(
@@ -66,7 +72,7 @@ Drawer buildDrawer(BuildContext context) {
           title: Text(favourite,style: TextStyle(color: drawerColor,fontSize: context.height20, fontWeight: FontWeight.bold)),
           leading: Icon(Icons.bookmark,color: drawerColor, size: context.height20),
           onTap: () {
-            Navigator.pushReplacementNamed(context, '/profile');
+            AppRoute.push(const FavouriteScreen());
           },
         ),
       ],

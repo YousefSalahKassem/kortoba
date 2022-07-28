@@ -1,10 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kortoba/model/global/user_model.dart';
 import 'package:kortoba/service/global/authentication_service.dart';
-import 'package:kortoba/service/global/firebase_operations.dart';
 import 'package:kortoba/util/routes.dart';
 import 'package:kortoba/view/Authentication/screens/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +18,8 @@ class AuthController with ChangeNotifier{
 
   UserModel _user= UserModel();
   UserModel get user => _user;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -72,15 +72,13 @@ class AuthController with ChangeNotifier{
     notifyListeners();
   }
 
-  getCurrentUser(BuildContext context) async {
-    FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {
+  getCurrentUser() {
+    firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {
       _user = UserModel.fromJson(value.data()!);
     });
   }
 
-  getUserData(BuildContext context, String uid) async {
-    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
-      _user = UserModel.fromJson(value.data()!);
-    });
+  Stream getUserData(String uid) {
+   return firestore.collection('users').doc(uid).snapshots();
   }
 }

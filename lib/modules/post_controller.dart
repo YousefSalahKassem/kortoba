@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class PostController with ChangeNotifier {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
@@ -7,34 +9,31 @@ class PostController with ChangeNotifier {
   bool liked = false;
 
   Stream<QuerySnapshot> getAllPosts() {
-    return _fireStore.collection('posts').snapshots();
+    return _fireStore.collection('posts').orderBy('time',descending: true).snapshots();
   }
 
-  Future addLike(BuildContext context, String postId, String subDocId,String id) async {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postId)
-        .collection('likes')
-        .doc(subDocId)
-        .set({
-      'likes': FieldValue.increment(1),
-      'id': id,
+  addLike(String postId) {
+    _fireStore.collection('posts').doc(postId).update({
+      'likes': FieldValue.arrayUnion([
+        FirebaseAuth.instance.currentUser!.uid
+      ])
     });
   }
 
-  unLike(BuildContext context, String postId, String subDocId,String id) async {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postId)
-        .collection('likes')
-        .doc(subDocId).delete();
+  removeLike(String postId) {
+    _fireStore.collection('posts').doc(postId).update({
+      'likes': FieldValue.arrayRemove([
+        FirebaseAuth.instance.currentUser!.uid
+      ])
+    });
   }
 
-  Stream<QuerySnapshot> getAllLikes(BuildContext context, String postId) {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postId)
-        .collection('likes')
-        .snapshots();
+  Future<void> sharePost(BuildContext context, String caption, String image) async {
+    await FlutterShare.share(
+      title: caption,
+      text: caption,
+      linkUrl: image,
+    );
   }
+
 }
