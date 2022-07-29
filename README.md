@@ -12,7 +12,7 @@ Social Media Application made with flutter and Firebase
 
 users:
 
-![users](https://user-images.githubusercontent.com/91211054/181801759-b5916c18-3cb9-4b43-a5da-4876aa584ef2.png)
+![users](https://user-images.githubusercontent.com/91211054/181802409-0daa6299-855e-4416-95ff-df523edeffba.png)
 
 
 posts:
