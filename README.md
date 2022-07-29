@@ -1,16 +1,27 @@
 # kortoba
 
-A new Flutter project.
+Social Media Application made with flutter and Firebase
 
-## Getting Started
+## Project skeleton
 
-This project is a starting point for a Flutter application.
+![project_skeleton](https://user-images.githubusercontent.com/91211054/181801675-60621fd3-e04f-41e7-b0aa-524bf8a70141.png)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Database skeleton
+
+users:
+
+![users](https://user-images.githubusercontent.com/91211054/181801759-b5916c18-3cb9-4b43-a5da-4876aa584ef2.png)
+
+
+posts:
+
+![posts](https://user-images.githubusercontent.com/91211054/181801809-7d0af595-6602-413d-bfc1-f988b124cd31.png)
+
+
+## Screenshots
+
+you can find screenshots for appplication in mobile and tablet folders.
+
+
