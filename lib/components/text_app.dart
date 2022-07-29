@@ -8,8 +8,6 @@ class TextApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Text(text,style: style,textAlign: textAlign,));
+    return Text(text,style: style,textAlign: textAlign,);
   }
 }

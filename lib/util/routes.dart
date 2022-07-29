@@ -2,13 +2,7 @@ import 'globals.dart';
 import 'package:flutter/cupertino.dart';
 
 class AppRoute {
-  static const String onBoard = '/';
-  static const String form = '/form';
-  static const String schedule = '/schedule';
-  static const String allTasks = '/allTasks';
-  static const String completedTasks = '/completedTasks';
-  static const String unCompletedTasks = '/unCompletedTasks';
-  static const String favoriteTasks = '/favoriteTasks';
+
 
   static Route<dynamic> onGenerateRoutes(RouteSettings routeSettings) {
     Widget getPage(String? name) {

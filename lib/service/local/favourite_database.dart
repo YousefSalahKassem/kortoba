@@ -33,10 +33,8 @@ class FavouriteDatabase{
         $columnId TEXT,
         $columnCaption TEXT,
         $columnImage TEXT,
-        $columnName TEXT,
+        $columnUid TEXT,
         $columnFavourite TEXT,
-        $columnProfileImage TEXT,
-        $columnEmail TEXT,
         $columnLikes TEXT
       )
     ''');
@@ -60,10 +58,8 @@ class FavouriteDatabase{
         id: maps[i][columnId] as String,
         caption: maps[i][columnCaption] as String,
         image: maps[i][columnImage] as String,
-        name: maps[i][columnName] as String,
+        uid: maps[i][columnUid] as String,
         favourite: maps[i][columnFavourite] as String,
-        profileImage: maps[i][columnProfileImage] as String,
-        email: maps[i][columnEmail] as String,
         likes: maps[i][columnLikes] as String
       );
     });

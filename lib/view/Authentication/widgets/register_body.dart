@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:kortoba/components/waiting.dart';
 import 'package:kortoba/styles/dimensions.dart';
 import 'package:kortoba/styles/images.dart';
+import 'package:kortoba/view/Authentication/widgets/fill_confirm_password.dart';
+import 'package:kortoba/view/Authentication/widgets/fill_first_name.dart';
+import 'package:kortoba/view/Authentication/widgets/fill_last_name.dart';
 import 'package:provider/provider.dart';
 import '../../../components/button_app.dart';
-import '../../../components/text_app.dart';
-import '../../../components/text_field_app.dart';
 import '../../../modules/auth_controller.dart';
 import '../../../service/global/authentication_service.dart';
 import '../../../styles/colors.dart';
-import '../../../styles/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'fill_email.dart';
+import 'fill_password.dart';
 
 class RegisterBody extends StatelessWidget {
   const RegisterBody({Key? key}) : super(key: key);
@@ -18,6 +21,7 @@ class RegisterBody extends StatelessWidget {
   Widget build(BuildContext context) {
     var controller = Provider.of<AuthController>(context);
     var authService = Provider.of<FirebaseAuthenticationService>(context);
+
     return authService.isLoading
         ? const Center(
             child: Waiting(text: loading),
@@ -31,125 +35,11 @@ class RegisterBody extends StatelessWidget {
                   SizedBox(
                     height: context.height30,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextApp(
-                        text: email,
-                        style: TextStyle(
-                            fontSize: context.height20,
-                            color: labelsColor,
-                            fontWeight: FontWeight.w700)),
-                  ),
-                  SizedBox(
-                    height: context.height10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextFieldApp(
-                        valid: emailRequired,
-                        controller: controller.emailController,
-                        icon: Icons.email,
-                        type: TextInputType.emailAddress),
-                  ),
-                  SizedBox(
-                    height: context.height20,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextApp(
-                        text: password,
-                        style: TextStyle(
-                            fontSize: context.height20,
-                            color: labelsColor,
-                            fontWeight: FontWeight.w700)),
-                  ),
-                  SizedBox(
-                    height: context.height10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextFieldApp(
-                        valid: passwordRequired,
-                        controller: controller.passwordController,
-                        icon: Icons.remove_red_eye,
-                        isPassword: true,
-                        type: TextInputType.visiblePassword),
-                  ),
-                  SizedBox(
-                    height: context.height20,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextApp(
-                        text: confirmPassword,
-                        style: TextStyle(
-                            fontSize: context.height20,
-                            color: labelsColor,
-                            fontWeight: FontWeight.w700)),
-                  ),
-                  SizedBox(
-                    height: context.height10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextFieldApp(
-                        valid: confirmPasswordRequired,
-                        controller: controller.confirmPasswordController,
-                        icon: Icons.remove_red_eye,
-                        isPassword: true,
-                        type: TextInputType.visiblePassword),
-                  ),
-                  SizedBox(
-                    height: context.height20,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextApp(
-                        text: firstName,
-                        style: TextStyle(
-                            fontSize: context.height20,
-                            color: labelsColor,
-                            fontWeight: FontWeight.w700)),
-                  ),
-                  SizedBox(
-                    height: context.height10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextFieldApp(
-                        valid: firstNameRequired,
-                        controller: controller.firstNameController,
-                        icon: Icons.remove_red_eye,
-                        isPassword: false,
-                        type: TextInputType.name),
-                  ),
-                  SizedBox(
-                    height: context.height20,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextApp(
-                        text: lastName,
-                        style: TextStyle(
-                            fontSize: context.height20,
-                            color: labelsColor,
-                            fontWeight: FontWeight.w700)),
-                  ),
-                  SizedBox(
-                    height: context.height10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: context.height15),
-                    child: TextFieldApp(
-                        valid: lastNameRequired,
-                        controller: controller.lastNameController,
-                        icon: Icons.remove_red_eye,
-                        isPassword: false,
-                        type: TextInputType.text),
-                  ),
-                  SizedBox(
-                    height: context.height20,
-                  ),
+                  const FillEmail(),
+                  const FillPassword(),
+                  const FillConfirmPassword(),
+                  const FillFirstName(),
+                  const FillLastName(),
                   SizedBox(
                     height: context.height20,
                   ),
@@ -158,7 +48,7 @@ class RegisterBody extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: context.height15),
                       child: ButtonApp(
                           color: buttonColor,
-                          text: register,
+                          text: AppLocalizations.of(context)!.register,
                           onPressed: () {
                             if (controller.registerKey.currentState!
                                     .validate() &&

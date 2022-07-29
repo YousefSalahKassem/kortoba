@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kortoba/components/loading_post.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:kortoba/model/global/post_model.dart';
 import 'package:kortoba/modules/post_controller.dart';
 import 'package:kortoba/styles/dimensions.dart';
@@ -12,7 +13,6 @@ class BuildBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostController controller = PostController();
-    List<PostModel> posts = [];
 
     return SizedBox(
         height: context.screenHeight,
@@ -21,12 +21,16 @@ class BuildBody extends StatelessWidget {
             stream: controller.getAllPosts(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
+                return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade500,
+                    highlightColor: Colors.grey.shade500,
+                    child: const LoadingPost());
               } else {
                 return ListView(
                     children: snapshot.data!.docs.map((DocumentSnapshot snapshot) {
                   return PostItem(
-                    post: PostModel.fromJson(snapshot.data() as Map<String, dynamic>),
+                    post: PostModel.fromJson(
+                        snapshot.data() as Map<String, dynamic>),
                     docId: snapshot.id,
                   );
                 }).toList());

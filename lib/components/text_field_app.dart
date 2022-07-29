@@ -11,7 +11,8 @@ class TextFieldApp extends StatelessWidget {
   IconData? icon;
   TextInputType type;
   bool isPassword;
-  TextFieldApp({Key? key,required this.valid,required this.controller, this.icon,required this.type , this.isPassword=false,}) : super(key: key);
+  bool enabled;
+  TextFieldApp({Key? key,required this.valid,required this.controller, this.icon,required this.type , this.isPassword=false, this.enabled=true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class TextFieldApp extends StatelessWidget {
         TextFormField(
           controller: controller,
           keyboardType: type,
+          enabled: enabled,
           obscureText: isPassword?authController.isShowing?true:false:false,
           style: TextStyle(
               color: blackColor,

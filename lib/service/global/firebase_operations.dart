@@ -2,24 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kortoba/components/button_app.dart';
 import 'package:kortoba/components/text_app.dart';
 import 'package:kortoba/components/text_button.dart';
 import 'package:kortoba/model/global/post_model.dart';
-import 'package:kortoba/modules/auth_controller.dart';
 import 'package:kortoba/styles/colors.dart';
 import 'package:kortoba/styles/dimensions.dart';
-import 'package:kortoba/styles/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kortoba/util/routes.dart';
 import 'package:kortoba/view/Home/widgets/write_comment.dart';
-import 'package:provider/provider.dart';
 import '../../model/global/user_model.dart';
 
 class FirebaseOperations with ChangeNotifier {
-  final FirebaseFirestore _firestore;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   TextEditingController caption = TextEditingController();
 
@@ -36,7 +33,6 @@ class FirebaseOperations with ChangeNotifier {
   final picker = ImagePicker();
   late UploadTask imagePostUploadTask;
 
-  FirebaseOperations(this._firestore);
 
   addUserData(String uid, UserModel user) {
     _firestore.collection('users').doc(uid).set(user.toJson());
@@ -47,13 +43,6 @@ class FirebaseOperations with ChangeNotifier {
         .collection('posts')
         .doc(posId)
         .set(data.toJson());
-  }
-
-  Future updatePost(String postId, dynamic data) async {
-    return FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postId)
-        .update(data);
   }
 
   Future pickUploadPostImage(BuildContext context, ImageSource source) async {
@@ -87,7 +76,6 @@ class FirebaseOperations with ChangeNotifier {
         context: context,
         barrierColor: Colors.grey.shade600,
         builder: (context) {
-          AuthController controller = Provider.of<AuthController>(context);
           return Dialog(
             insetPadding: EdgeInsets.all(context.height15),
             shape: RoundedRectangleBorder(
@@ -110,19 +98,19 @@ class FirebaseOperations with ChangeNotifier {
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                IconButton(
-                                  onPressed: () {
+                                GestureDetector(
+                                  onTap:(){
                                     pickUploadPostImage(
                                         context, ImageSource.gallery);
                                   },
-                                  icon: Icon(
+                                  child: Icon(
                                     Icons.camera_alt,
                                     size: context.height30 * 1.5,
                                     color: cameraIcon,
                                   ),
                                 ),
                                 Text(
-                                  uploadImage,
+                                  AppLocalizations.of(context)!.uploadImage,
                                   style: TextStyle(
                                       color: primaryLight,
                                       fontWeight: FontWeight.bold,
@@ -145,7 +133,7 @@ class FirebaseOperations with ChangeNotifier {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextApp(
-                              text: writeComment,
+                              text: AppLocalizations.of(context)!.writeComment,
                               style: TextStyle(
                                   color: commentLabel,
                                   fontSize: context.height20),
@@ -163,9 +151,8 @@ class FirebaseOperations with ChangeNotifier {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButtonApp(
-                            text: ignore,
-                            style: TextStyle(
-                                color: buttonColor, fontSize: context.height20),
+                            text: AppLocalizations.of(context)!.ignore,
+                            style: TextStyle(fontWeight: FontWeight.bold, color: buttonColor, fontSize: context.height20),
                             onPressed: () {
                               uploadPostImage = File('');
                               AppRoute.pop();
@@ -176,24 +163,24 @@ class FirebaseOperations with ChangeNotifier {
                           ),
                           ButtonApp(
                             color: buttonColor,
-                            text: share,
+                            text: AppLocalizations.of(context)!.share,
                             onPressed: () {
-                              uploadPostData(
-                                  FirebaseAuth.instance.currentUser!.uid +
-                                      DateTime.now().toString(),
-                                  PostModel(
-                                    name: controller.user.name,
-                                    email: controller.user.email,
-                                    profilePicture: controller.user.image,
-                                    image: uploadPostImageUrl,
-                                    caption: caption.text,
-                                    time: Timestamp.now().toString(),
-                                    likes: []
-                                  )).whenComplete(() {
-                                uploadPostImage = File('');
-                                caption.clear();
-                                AppRoute.pop();
-                              }).whenComplete(() => AppRoute.pop());
+                              if(caption.text.isNotEmpty&&uploadPostImageUrl.isNotEmpty){
+                                uploadPostData(
+                                    FirebaseAuth.instance.currentUser!.uid +
+                                        DateTime.now().toString(),
+                                    PostModel(
+                                        id: FirebaseAuth.instance.currentUser!.uid,
+                                        image: uploadPostImageUrl,
+                                        caption: caption.text,
+                                        time: Timestamp.now().toString(),
+                                        likes: []
+                                    )).whenComplete(() {
+                                  uploadPostImage = File('');
+                                  caption.clear();
+                                  AppRoute.pop();
+                                }).whenComplete(() => AppRoute.pop());
+                              }
                             },
                             width: context.height30 * 3,
                           )
@@ -208,4 +195,5 @@ class FirebaseOperations with ChangeNotifier {
           );
         });
   }
+
 }

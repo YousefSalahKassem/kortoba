@@ -12,24 +12,24 @@ class SettingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CircleAvatar(
-          backgroundColor: buttonColor,
-          radius: context.height30,
-          child: IconButton(
-            icon: Icon(
+    return GestureDetector(
+      onTap: onPressed,
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundColor: buttonColor,
+            radius: context.height30,
+            child: Icon(
               icon,
               color: Colors.white,
             ),
-            onPressed: onPressed,
           ),
-        ),
-        SizedBox(
-          height: context.height10,
-        ),
-        TextApp(text: text, style: TextStyle(fontWeight: FontWeight.normal, fontSize:context.height15,color: secondaryColor),)
-      ],
+          SizedBox(
+            height: context.height10,
+          ),
+          TextApp(text: text, style: TextStyle(fontWeight: FontWeight.normal, fontSize:context.height15,color: secondaryColor),)
+        ],
+      ),
     );
   }
 }

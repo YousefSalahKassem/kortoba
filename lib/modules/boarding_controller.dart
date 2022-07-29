@@ -1,38 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:kortoba/styles/colors.dart';
 import 'package:kortoba/styles/dimensions.dart';
-import 'package:kortoba/styles/images.dart';
-import '../model/local/boarding_model.dart';
-import '../styles/strings.dart';
 import '../util/routes.dart';
 import '../view/Authentication/screens/login_screen.dart';
 
 class BoardingController with ChangeNotifier {
   int _currentIndex = 0;
+  int _tapIndex = 0;
   PageController pageController = PageController(initialPage: 0);
 
-
-
   int get currentIndex => _currentIndex;
-  final List<Boarding> _boardings = [
-    Boarding(
-      title: welcome,
-      image: splash1,
-    ),
-    Boarding(
-      title: secondSplash,
-      image: splash2,
-    ),
-    Boarding(
-      title: thirdSplash,
-      image: splash3,
-    ),
-  ];
-
-  List<Boarding> get boardings => _boardings;
+  int get tapIndex => _tapIndex;
 
   set currentIndex(int value) {
     _currentIndex = value;
+    notifyListeners();
+  }
+  set tapIndex(int value) {
+    _tapIndex = value;
     notifyListeners();
   }
 
@@ -41,8 +26,13 @@ class BoardingController with ChangeNotifier {
     notifyListeners();
   }
 
+  void setTapIndex(int value) {
+    _tapIndex = value;
+    notifyListeners();
+  }
+
   void nextPage(){
-    if(currentIndex==boardings.length-1){
+    if(currentIndex==2){
       AppRoute.pushReplacement(const LoginScreen());
     }
     else{

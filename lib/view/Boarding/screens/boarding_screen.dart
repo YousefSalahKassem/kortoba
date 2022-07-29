@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kortoba/styles/colors.dart';
 import 'package:kortoba/styles/dimensions.dart';
-import 'package:kortoba/styles/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-
 import '../../../components/button_app.dart';
+import '../../../model/local/boarding_model.dart';
 import '../../../modules/boarding_controller.dart';
+import '../../../styles/images.dart';
 import '../widgets/boarding_item.dart';
 
 class BoardingScreen extends StatelessWidget {
@@ -14,6 +15,21 @@ class BoardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Provider.of<BoardingController>(context);
+    final List<Boarding> boardings = [
+      Boarding(
+        title: AppLocalizations.of(context)!.welcome,
+        image: splash1,
+      ),
+      Boarding(
+        title: AppLocalizations.of(context)!.secondSplash,
+        image: splash2,
+      ),
+      Boarding(
+        title: AppLocalizations.of(context)!.thirdSplash,
+        image: splash3,
+      ),
+    ];
+
     return Scaffold(
       body: Column(
         children: [
@@ -22,15 +38,15 @@ class BoardingScreen extends StatelessWidget {
             child: PageView.builder(
                 controller: controller.pageController,
                 onPageChanged: (index) => controller.setCurrentIndex(index),
-                itemCount: controller.boardings.length,
+                itemCount: boardings.length,
                 itemBuilder: (context, index) =>
-                    BoardingItem(controller: controller, index: index)),
+                    BoardingItem(item: boardings[index], index: index)),
           ),
           SizedBox(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                controller.boardings.length,
+                boardings.length,
                     (index) => controller.buildDot(index, context),
               ),
             ),
@@ -40,7 +56,7 @@ class BoardingScreen extends StatelessWidget {
           ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: context.height20),
-              child: ButtonApp(color: buttonColor, text: next, onPressed: (){
+              child: ButtonApp(color: buttonColor, text: AppLocalizations.of(context)!.next, onPressed: (){
                 controller.nextPage();
               }),
           ),

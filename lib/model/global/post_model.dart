@@ -1,20 +1,16 @@
 
 class PostModel {
-  String? name;
-  String? email;
-  String? profilePicture;
+  String? id;
   String? caption;
   String? image;
   String? time;
   List<dynamic>? likes;
 
-  PostModel({this.name, this.email, this.profilePicture, this.caption, this.image, this.time, this.likes});
+  PostModel({this.id, this.caption, this.image, this.time, this.likes});
 
   factory PostModel.fromJson(Map json) {
     return PostModel(
-      name: json['name'] ?? "",
-      email: json['email'] ?? "",
-      profilePicture: json['profilePicture'] ?? "",
+      id: json['id']??'',
       caption: json['caption']??'',
       image: json['image']??'',
       time: json['time']??'',
@@ -24,9 +20,7 @@ class PostModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name??'',
-      'email': email??'',
-      'profilePicture': profilePicture??'',
+      "id": id??'',
       'caption': caption??'',
       'image': image??'',
       'time': time??'',

@@ -8,15 +8,12 @@ import '../../util/routes.dart';
 import 'firebase_operations.dart';
 
 class FirebaseAuthenticationService with ChangeNotifier {
-  final FirebaseAuth _firebaseAuth ;
-  FirebaseAuthenticationService(this._firebaseAuth);
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   User? get user => _firebaseAuth.currentUser;
-
-  Stream<User?> get authState => FirebaseAuth.instance.authStateChanges();
 
   Future<void> signUpWithEmail({
     required String email,
@@ -40,9 +37,10 @@ class FirebaseAuthenticationService with ChangeNotifier {
                 image: '',
                 background: '',
               ));
+          User user = value.user!;
+          user.updateDisplayName(name);
           _isLoading=false;
           AppRoute.pushReplacement(const LandingScreen());
-          showSnackBar(context, 'Regitser successful');
         }
       });
     } on FirebaseAuthException catch (e) {
@@ -51,8 +49,7 @@ class FirebaseAuthenticationService with ChangeNotifier {
       }
       else if (e.code == 'email-already-in-use') {
       }
-      showSnackBar(
-          context, e.message!); // Displaying the usual firebase error message
+    // Displaying the usual firebase error message
     }
     notifyListeners();
   }
@@ -71,12 +68,11 @@ class FirebaseAuthenticationService with ChangeNotifier {
         if(value.user != null){
           _isLoading=false;
           AppRoute.pushReplacement(const LandingScreen());
-          showSnackBar(context, 'Login successful');
         }
       });
     } on FirebaseAuthException catch (e) {
       _isLoading=false;
-      showSnackBar(context, e.message!); // Displaying the error message
+      showSnackBar(context, e.message!);
     }
     notifyListeners();
   }
@@ -90,15 +86,7 @@ class FirebaseAuthenticationService with ChangeNotifier {
         email: email,
       );
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message!); // Displaying the error message
-    }
-  }
-
-  Future<void> signOut(BuildContext context) async {
-    try {
-      await _firebaseAuth.signOut();
-    } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message!); // Displaying the error message
+      showSnackBar(context, e.message!);
     }
   }
 

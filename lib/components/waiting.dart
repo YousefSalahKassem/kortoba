@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kortoba/components/text_app.dart';
 import 'package:kortoba/styles/dimensions.dart';
-import 'package:kortoba/styles/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lottie/lottie.dart';
 import '../styles/colors.dart';
 import '../styles/images.dart';
@@ -16,7 +16,7 @@ class Waiting extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TextApp(text: waiting,style: TextStyle(color: secondaryColor, fontWeight: FontWeight.w700, fontSize: context.height20),),
+        TextApp(text: AppLocalizations.of(context)!.waiting,style: TextStyle(color: secondaryColor, fontWeight: FontWeight.w700, fontSize: context.height20),),
         LottieBuilder.asset(loading,width: context.height30*5,),
       ],
     );

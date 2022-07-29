@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:kortoba/model/global/user_model.dart';
 import 'package:kortoba/service/global/authentication_service.dart';
 import 'package:kortoba/util/routes.dart';
 import 'package:kortoba/view/Authentication/screens/login_screen.dart';
@@ -16,8 +14,7 @@ class AuthController with ChangeNotifier{
   bool _isShowing = true;
   bool get isShowing => _isShowing;
 
-  UserModel _user= UserModel();
-  UserModel get user => _user;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 
@@ -26,6 +23,7 @@ class AuthController with ChangeNotifier{
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
+
 
   AuthController(){
     loginKey;
@@ -65,20 +63,4 @@ class AuthController with ChangeNotifier{
     notifyListeners();
   }
 
-  void logoutUser(BuildContext context) {
-    context.read<FirebaseAuthenticationService>().signOut(context).whenComplete((){
-      AppRoute.pushReplacement(const LoginScreen());
-    });
-    notifyListeners();
-  }
-
-  getCurrentUser() {
-    firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {
-      _user = UserModel.fromJson(value.data()!);
-    });
-  }
-
-  Stream getUserData(String uid) {
-   return firestore.collection('users').doc(uid).snapshots();
-  }
 }

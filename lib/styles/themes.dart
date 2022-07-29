@@ -49,44 +49,4 @@ abstract class AppThemes {
     brightness: Brightness.light,
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
-
-  // static final darkTheme = ThemeData(
-  //   colorScheme: const ColorScheme.dark().copyWith(
-  //     primary: ColorValues.primarySwatch,
-  //   ),
-  //   iconTheme: const IconThemeData(color: ColorValues.darkGrayColor),
-  //   scaffoldBackgroundColor: ColorValues.darkBgColor,
-  //   shadowColor: ColorValues.lightGrayColor,
-  //   appBarTheme: const AppBarTheme(backgroundColor: ColorValues.darkBgColor),
-  //   bottomAppBarColor: ColorValues.darkBgColor,
-  //   cardTheme: const CardTheme(color: ColorValues.darkColor),
-  //   dialogTheme: const DialogTheme(backgroundColor: ColorValues.darkColor),
-  //   bottomSheetTheme: const BottomSheetThemeData().copyWith(
-  //     backgroundColor: ColorValues.darkColor,
-  //   ),
-  //   dividerColor: ColorValues.darkerGrayColor,
-  //   snackBarTheme: const SnackBarThemeData(
-  //     backgroundColor: ColorValues.lightBgColor,
-  //     contentTextStyle: TextStyle(
-  //       color: ColorValues.blackColor,
-  //     ),
-  //   ),
-  //   elevatedButtonTheme: ElevatedButtonThemeData(
-  //     style: const ButtonStyle().copyWith(
-  //       backgroundColor: MaterialStateProperty.all(ColorValues.primaryColor),
-  //       foregroundColor: MaterialStateProperty.all(ColorValues.whiteColor),
-  //       elevation: MaterialStateProperty.all(0.0),
-  //     ),
-  //   ),
-  //   textTheme: const TextTheme().copyWith(
-  //     bodyText1: const TextStyle(
-  //       color: ColorValues.lightBgColor,
-  //     ),
-  //     subtitle1: const TextStyle(
-  //       color: ColorValues.grayColor,
-  //     ),
-  //   ),
-  //   brightness: Brightness.dark,
-  //   visualDensity: VisualDensity.adaptivePlatformDensity,
-  // );
 }

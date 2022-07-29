@@ -3,11 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:kortoba/components/text_app.dart';
 import 'package:kortoba/styles/dimensions.dart';
 import 'package:kortoba/styles/images.dart';
-import 'package:kortoba/styles/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kortoba/view/Authentication/widgets/fill_email.dart';
 import 'package:provider/provider.dart';
-
 import '../../../components/button_app.dart';
-import '../../../components/text_field_app.dart';
 import '../../../modules/auth_controller.dart';
 import '../../../styles/colors.dart';
 
@@ -17,8 +16,10 @@ class ForgotBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Provider.of<AuthController>(context);
+    final GlobalKey<FormState> forgotKey = GlobalKey<FormState>();
+
     return Form(
-        key: controller.forgotKey,
+        key:forgotKey,
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,16 +38,10 @@ class ForgotBody extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: context.height10),
-                          TextApp(text: email,style: TextStyle(color: labelsColor, fontSize: context.height20, fontWeight: FontWeight.w700),),
-                          SizedBox(height: context.height10),
-                          TextFieldApp(
-                              valid: emailRequired,
-                              controller: controller.emailController,
-                              icon: Icons.email,
-                              type: TextInputType.emailAddress),
+                          const FillEmail(),
                           SizedBox(height: context.height30),
-                          ButtonApp(color: buttonColor, text: resetPassword, onPressed: (){
-                            if (controller.forgotKey.currentState!.validate()) {
+                          ButtonApp(color: buttonColor, text: AppLocalizations.of(context)!.reset_password, onPressed: (){
+                            if (forgotKey.currentState!.validate()) {
                                 controller.forgotPassword(context);
                             }
                           }),

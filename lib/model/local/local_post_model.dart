@@ -4,24 +4,21 @@ class LocalPostModel {
   String? id;
   String? caption;
   String? image;
-  String? name;
-  String? profileImage;
-  String? email;
+  String? uid;
   String? favourite;
   String? likes;
 
-  LocalPostModel({this.id, this.caption, this.image, this.name, this.favourite, this.profileImage, this.email, this.likes});
+
+  LocalPostModel({this.id, this.caption, this.image, this.favourite, this.likes, this.uid});
 
   factory LocalPostModel.fromJson(Map json) {
     return LocalPostModel(
       id: json['id']??'',
       caption: json['caption']??'',
       image: json['image']??'',
-      name: json['name']??'',
       favourite: json['favourite']??'',
-      profileImage: json['profileImage']??'',
-      email: json['email']??'',
       likes: json['likes']??'',
+      uid: json['uid']??'',
     );
   }
 
@@ -30,11 +27,9 @@ class LocalPostModel {
       columnId: id??'',
       columnCaption: caption??'',
       columnImage: image??'',
-      columnName: name??'',
       columnFavourite: favourite??'',
-      columnProfileImage: profileImage??'',
-      columnEmail: email??'',
       columnLikes: likes??'',
+      columnUid: uid??'',
     };
   }
 }
